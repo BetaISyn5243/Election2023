@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build
-        run: tsc && vite build --base=/Election2023/
+        run: yarn build --base=/Election2023/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

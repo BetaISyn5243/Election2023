@@ -1,11 +1,10 @@
 import React from 'react'
-import { Grid, Paper, Toolbar, Typography } from '@mui/material';
+import {Grid, Paper, Stack, Typography} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-
 const OversScreen = () => {
     const [candidates, setCandidates] = React.useState([
-        { name: 'Recep Tayyip Erdoğan', votes: 12345, img: 'assets/rte.jpg' },
-        { name: 'Kemal Kılıçdaroğlu', votes: 67890, img: 'assets/kk.jpg' },
+        { name: 'Recep Tayyip Erdoğan', votes: 10, img: '../assets/rte.jpg' },
+        { name: 'Kemal Kılıçdaroğlu', votes: 20, img: '../assets/kk.jpg' },
     ]);
 
     const [totalVotes, setTotalVotes] = React.useState(
@@ -30,25 +29,25 @@ const OversScreen = () => {
         }, 1000);
     };
 
-
-
     const getCandidatePercentage = (votes:any) => ((votes / totalVotes) * 100).toFixed(2);
 
     return (
         <div>
             <AppBar position="static">
-                <Toolbar>
-                    <img src='assets/rte.jpg' width="150px" height="150px"/>
-                    <Typography variant="h6">Cumhurbaşkanlığı Seçimi</Typography>
-                    <Typography variant="subtitle1" sx={{ ml: 2 }}>
-                        Toplam oy: {totalVotes}
+                <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <Typography fontSize="0.8em" sx={{ ml: 2, textAlign:'center' }}>
+                        {candidates[0].name}: <b>%{getCandidatePercentage(candidates[0].votes)}</b>
                     </Typography>
-                    {candidates.map((candidate, index) => (
-                        <Typography variant="subtitle1" sx={{ ml: 2 }} key={index}>
-                            {candidate.name}: %{getCandidatePercentage(candidate.votes)}
+                    <Stack>
+                        <Typography fontSize="1em" sx={{textAlign: 'center' }}>Cumhurbaşkanlığı Seçimi</Typography>
+                        <Typography fontSize="0.9em" sx={{textAlign: 'center' }}>
+                            Toplam oy: {totalVotes}
                         </Typography>
-                    ))}
-                </Toolbar>
+                    </Stack>
+                    <Typography fontSize="0.8em"  sx={{ mr: 2,textAlign:'center' }}>
+                        {candidates[1].name}: <b> %{getCandidatePercentage(candidates[1].votes)}</b>
+                    </Typography>
+                </Stack>
             </AppBar>
             <Grid container spacing={2}>
                 {candidates.map((candidate, index) => (
@@ -57,19 +56,27 @@ const OversScreen = () => {
                             <img
                                 src={candidate.img}
                                 alt={candidate.name}
-                                style={{ width: '100%', maxWidth: '200px', height: 'auto' }}
+                                style={{ width: '100%', maxWidth: '130px', height: '150px', maxHeight:'150px' }}
                             />
-                            <Typography variant="h6" style={{ fontWeight: 'bold', marginTop: '16px' }}>
+                            <Typography fontSize="1.4em" variant="h6" style={{ fontWeight: 'bold', marginTop: '16px' }}>
                                 {candidate.name}
                             </Typography>
                             <Typography variant="body1" style={{ marginTop: '8px' }}>
-                                Toplam oy: {candidate.votes}
+                                Toplam oy: <b>{candidate.votes}</b>
                             </Typography>
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '16px' }}>
-                                <button onClick={() => handleVoteChange(index, 1)} disabled={isButtonDisabled}>
+                                <button
+                                    onClick={() => handleVoteChange(index, 1)}
+                                    disabled={isButtonDisabled}
+                                    style={{ fontSize: '18px', padding: '8px 16px', marginRight: '8px' }}
+                                >
                                     +
                                 </button>
-                                <button onClick={() => handleVoteChange(index, -1)} disabled={isButtonDisabled}>
+                                <button
+                                    onClick={() => handleVoteChange(index, -1)}
+                                    disabled={isButtonDisabled}
+                                    style={{ fontSize: '18px', padding: '8px 16px' }}
+                                >
                                     -
                                 </button>
                             </div>

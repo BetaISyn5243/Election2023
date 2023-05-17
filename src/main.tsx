@@ -6,5 +6,5 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.Fragment>
     <App />
-  </React.Fragment>,
+  </React.Fragment>
 )

@@ -4,8 +4,8 @@ import AppBar from '@mui/material/AppBar';
 
 const OversScreen = () => {
     const [candidates, setCandidates] = React.useState([
-        { name: 'Aday 1', votes: 12345, img: '/path/to/image1.jpg' },
-        { name: 'Aday 2', votes: 67890, img: '/path/to/image2.jpg' },
+        { name: 'Recep Tayyip Erdoğan', votes: 12345, img: 'assets/rte.jpg' },
+        { name: 'Kemal Kılıçdaroğlu', votes: 67890, img: 'assets/kk.jpg' },
     ]);
 
     const [totalVotes, setTotalVotes] = React.useState(
@@ -38,6 +38,7 @@ const OversScreen = () => {
         <div>
             <AppBar position="static">
                 <Toolbar>
+                    <img src='assets/rte.jpg' width="150px" height="150px"/>
                     <Typography variant="h6">Cumhurbaşkanlığı Seçimi</Typography>
                     <Typography variant="subtitle1" sx={{ ml: 2 }}>
                         Toplam oy: {totalVotes}

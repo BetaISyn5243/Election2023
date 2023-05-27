@@ -1,13 +1,15 @@
-import React from 'react'
-import {Grid, Paper, Stack, Typography} from '@mui/material';
+import React, {useState} from 'react'
+import {Button, Grid, Paper, Stack, Typography} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import kk from "./assets/kk.jpg"
 import rte from "./assets/rte.jpg"
 
 const OversScreen = () => {
+  const rteGetLocal = parseInt(localStorage.getItem("rte" ) ??"0")
+  const kkGetLocal = parseInt(localStorage.getItem("kk" ) ??"0")
   const [candidates, setCandidates] = React.useState([
-    {name: 'Recep Tayyip Erdoğan', votes: 10, img: rte},
-    {name: 'Kemal Kılıçdaroğlu', votes: 20, img: kk},
+    {name: 'Recep Tayyip Erdoğan', votes: rteGetLocal, img: rte},
+    {name: 'Kemal Kılıçdaroğlu', votes: kkGetLocal, img: kk},
   ]);
   
   const [totalVotes, setTotalVotes] = React.useState(
@@ -15,21 +17,23 @@ const OversScreen = () => {
   );
   
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
-  
+  const [disableWait, setDisableWait] = useState(false);
   const handleVoteChange = (index: number, amount: number) => {
     if (isButtonDisabled) return; // disable button if already clicked
-    
-    setIsButtonDisabled(true); // disable button
+    disableWait || setIsButtonDisabled(true); // disable button
     setTotalVotes((prevTotalVotes) => prevTotalVotes + amount);
     setCandidates((prevCandidates) => {
       const newCandidates = [...prevCandidates];
       newCandidates[index].votes += amount;
+      localStorage.setItem("kk",candidates[1].votes.toString())
+      localStorage.setItem("rte",candidates[0].votes.toString())
       return newCandidates;
     });
-    
+
     setTimeout(() => {
-      setIsButtonDisabled(false); // enable button after 1 second
-    }, 1000);
+      disableWait || setIsButtonDisabled(false); // enable button after 1 second
+    
+    }, 500);
   };
   
   const getCandidatePercentage = (votes: number) => ((votes / totalVotes) * 100).toFixed(2);
@@ -87,6 +91,23 @@ const OversScreen = () => {
           </Grid>
         ))}
       </Grid>
+      <Stack direction={"row"} justifyContent={"space-between"} px={10}>
+        
+        <Button onClick={()=>setDisableWait(x=>!x)} >Bekleme süresini {disableWait?"aktif et": "iptal et"}</Button>
+        <Button onClick={()=>{
+          localStorage.setItem("kk","0")
+          localStorage.setItem("rte","0")
+          setTotalVotes(0)
+          setCandidates((prevCandidates) => {
+            const newCandidates = [...prevCandidates];
+            newCandidates[0].votes = 0;
+            newCandidates[1].votes = 0;
+            return newCandidates;
+          });
+        }}>Sıfırla</Button>
+      </Stack>
+      
+      
     </div>
   );
 };
